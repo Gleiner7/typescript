@@ -4,8 +4,8 @@ export interface user {
     activo: boolean;
 }
 
-const diego: user = {
-    nombre: "diegooo",
+const jairo: user = {
+    nombre: "jairo",
     edad: 23,
     activo: true
 }
@@ -18,6 +18,6 @@ const juan: user = {
 
 export const users: user[] = [];
 
-users.push(diego,juan);
+users.push(jairo,juan);
 
 console.log(users);
