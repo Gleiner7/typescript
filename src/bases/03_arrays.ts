@@ -16,7 +16,7 @@ const juan: user = {
     activo: true
 }
 
-export const users: user[] = [];
+export const users: user[] = [jairo,juan];
 
 users.push(jairo,juan);
 

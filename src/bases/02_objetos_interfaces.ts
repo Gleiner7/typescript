@@ -21,14 +21,14 @@
 //----------------------------------------------------------------------------------------------------
 
 //Otra forma de escribir y tipar los datos con TYPE
-type Usuario = {
+type User = {
     nombre: string;
     edad: number;
     telefono?: number;
     activo: boolean;
 }
 
-export const usuario: Usuario = {
+export const usuario: User = {
     nombre: 'pepita',
     edad: 23,
     activo: true
