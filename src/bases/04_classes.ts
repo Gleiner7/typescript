@@ -23,44 +23,34 @@
 
 
 import axios from 'axios';
-import type { RickapiResponse } from './interfaces/rickapi-response.interface';
-type CharacterData = {
-    image: string;
-    name: string;
-    status: string;
-    id: number;
-};
+import type { PokeapiResponse } from './bases/PokeApi.ts';
+
+// Definimos qué datos queremos extraer de pokenApi
+export type PokemonData = {
+    nombre: string;
+    experiencia: number;
+    habilidadPrincipal: string;
+}
 
 export class Usuario {
-  //METODOS
     constructor(
-    public id: number,
-    public nombre: string,
-    public edad: number
-    ) { }
-
-    get imageUrl(): string {
-    return `https://imagenUser.com${this.id}`;
-    }
-
-    saludar(): string {
-    return (`Hola, soy ${this.nombre} conn el id ${this.id}`);
-    }
-
-async getMoves(): Promise<CharacterData>{
-    try {
-        const { data : datosRick } =  await axios.get <RickapiResponse>('https://rickandmortyapi.com/api/character/77');
-        const { image = '', name = 'Desconoscido', status = 'N/A', id } = datosRick;
-        console.log(image);
-
-        return { image, name, status, id };
-    } catch (error) {
-        console.error("Error al obtener datos:", error);
-        throw error;
-    }
+        public id: number,
+        public nombre: string,
+                public edad: number
+    ) {} 
+    async getPokemonInfo(): Promise<PokemonData> {
+        try {
+            // Usamos la URL de la imagen: pokeapi
+            const { data } = await axios.get<PokeapiResponse>(`https://pokeapi.co/api/v2/pokemon/ditto`);
+                        return {
+                nombre: data.name,
+                experiencia: data.base_experience,
+                habilidadPrincipal: data.abilities[0].ability.name
+            };
+        } catch (error) {
+            console.error("Error al obtener datos de Pokémon:", error);
+            throw error;
+        }
     }
 }
-//Crear un objeto tipo Usuario
-export const userClass = new Usuario(1, "Diego", 34);
-
-userClass.getMoves();
+export const userClass = new Usuario(1, "Diego", 36);
