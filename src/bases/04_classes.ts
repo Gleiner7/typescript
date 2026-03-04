@@ -23,6 +23,7 @@
 
 
 import axios from 'axios';
+import type { RickapiResponse } from './interfaces/rickapi-response.interface';
 type CharacterData = {
     image: string;
     name: string;
@@ -48,7 +49,7 @@ export class Usuario {
 
 async getMoves(): Promise<CharacterData>{
     try {
-        const { data } =  await axios.get ('https://rickandmortyapi.com/api/character/77');
+        const { data } =  await axios.get <RickapiResponse>('https://rickandmortyapi.com/api/character/77');
         const { image = '', name = 'Desconoscido', status = 'N/A', id } = data;
         console.log(image);
 
