@@ -1,3 +1,4 @@
+
 // export class Usuario {
 //     //Propiedades
 //     nombre: string;
@@ -37,11 +38,17 @@ export class Usuario {
     return (`Hola, soy ${this.nombre} conn el id ${this.id}`);
     }
 
-    async getMoves() {
-    // const moves  = 10;
-    const resp = await axios.get('https://rickandmortyapi.com/api/episode');
-    console.log(resp);
-    //return resp;
+async getMoves() {
+    try {
+        const { data } =  await axios.get ('https://rickandmortyapi.com/api/character/77');
+        const { image = '', name = 'Desconoscido', status = 'N/A', id } = data;
+        console.log(image);
+
+        return { image, name, status, id };
+    } catch (error) {
+        console.error("Error al obtener datos:", error);
+        throw error;
+    }
     }
 }
 //Crear un objeto tipo Usuario
