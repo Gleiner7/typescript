@@ -23,7 +23,7 @@
 
 
 import axios from 'axios';
-import type { PokeapiResponse } from './bases/PokeApi.ts';
+import type { PokeapiResponse } from './PokeApi';
 
 // Definimos qué datos queremos extraer de pokenApi
 export type PokemonData = {
