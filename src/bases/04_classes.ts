@@ -54,3 +54,48 @@ export class Usuario {
     }
 }
 export const userClass = new Usuario(1, "Diego", 36);
+
+// ---------------------------------------------------------------------------
+// servicio simple de pokémon usado por el ejemplo de main.ts
+export type PokemonCardData = {
+    nombre: string;
+    imagen: string;
+    descripcion: string;
+    id: number;
+};
+
+export class PokemonService {
+    async getInitialList(limit: number): Promise<PokemonCardData[]> {
+        const { data } = await axios.get<{ results: { name: string; url: string }[] }>(
+            `https://pokeapi.co/api/v2/pokemon?limit=${limit}`
+        );
+
+        const cards: PokemonCardData[] = [];
+        for (let i = 0; i < data.results.length; i++) {
+            const poke = data.results[i];
+            const detail = await axios.get<any>(poke.url);
+
+            // obtener descripción en inglés a partir del recurso de especie
+            let descripcion = "";
+            try {
+                const speciesResp = await axios.get<any>(detail.data.species.url);
+                const flavor = speciesResp.data.flavor_text_entries.find(
+                    (e: any) => e.language.name === 'en'
+                );
+                descripcion = flavor ? flavor.flavor_text.replace(/\n|\f/g, ' ') : '';
+            } catch (err) {
+                console.warn('No se pudo obtener descripción para', poke.name, err);
+            }
+
+            cards.push({
+                nombre: poke.name,
+                imagen: detail.data.sprites.front_default,
+                descripcion,
+                id: i + 1,
+            });
+        }
+        return cards;
+    }
+}
+
+export const pokemonService = new PokemonService();

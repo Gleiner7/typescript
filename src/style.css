@@ -79,8 +79,27 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 11px auto -webkit-focus-ring-color;
 }
+.pokemon-card img {
+  transition: all 0.4s ease;
+  filter: grayscale(100%) brightness(0.2); /* Efecto de "no descubierto" */
+}
+
+.pokemon-card.descubierto img {
+  filter: grayscale(0%) brightness(1) drop-shadow(0 0 10px #ffcb05);
+  transform: scale(1.05);
+}
+
+.grid-layout {
+  display: grid;
+  /* Fuerza exactamente 5 columnas de igual tamaño */
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 20px;
+  padding: 20px;
+  justify-items: center; /* Centra las tarjetas dentro de su columna */
+}
+
 
 @media (prefers-color-scheme: light) {
   :root {
