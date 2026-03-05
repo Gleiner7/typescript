@@ -79,9 +79,15 @@ export class PokemonService {
             let descripcion = "";
             try {
                 const speciesResp = await axios.get<any>(detail.data.species.url);
-                const flavor = speciesResp.data.flavor_text_entries.find(
-                    (e: any) => e.language.name === 'en'
+                // buscar entrada en español ('es'); si no existe, caerá al inglés como fallback
+                let flavor = speciesResp.data.flavor_text_entries.find(
+                    (e: any) => e.language.name === 'es'
                 );
+                if (!flavor) {
+                    flavor = speciesResp.data.flavor_text_entries.find(
+                        (e: any) => e.language.name === 'en'
+                    );
+                }
                 descripcion = flavor ? flavor.flavor_text.replace(/\n|\f/g, ' ') : '';
             } catch (err) {
                 console.warn('No se pudo obtener descripción para', poke.name, err);
